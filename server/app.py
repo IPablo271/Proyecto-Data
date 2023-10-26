@@ -6,6 +6,7 @@ from flask_cors import CORS  # Importa CORS
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 import tensorflow as tf
+import random 
 
 modelo_recomendacion = load_model("model_artistas.h5")
 data_api = pd.read_csv("ml_dataframe_ver3.csv")
@@ -67,30 +68,27 @@ def get_similar_artists_api(model,artist_name, data_model, n_similar=10, max_ite
 
     return label_encoders['artist_name'].inverse_transform(similar_artist_names)
 
-
-def obtener_cancion_aleatoria(artist_name):
-    # Filtrar el DataFrame por el nombre del artista
-    artist_songs = data_api[data_api['artist_name'] == artist_name]
-
-    if artist_songs.empty:
-        return "Artista no encontrado"
-
-    # Elegir una canción aleatoria del artista
-    random_song = artist_songs.sample(1)
+def get_canciones(artistas, data_api):
+    lista_canciones = []
     
-    # Obtener el nombre del artista y el nombre de la canción
-    artist = random_song['artist_name'].values[0]
-    song = random_song['track_name'].values[0]
-
-    return artist, song
-
-
-def obtener_canciones_aleatorias(lista_de_artistas):
-    resultados = []
-    for artista in lista_de_artistas:
-        artist, song = obtener_cancion_aleatoria(artista)
-        resultados.append((artist, song))
-    return resultados
+    for artista in artistas:
+        artist_code = label_encoders['artist_name'].transform([artista])[0]
+        
+        # Filtra el conjunto de datos para obtener las canciones del artista codificado
+        
+        canciones_disponibles = data_api[data_api['artist_name'] == artist_code]
+        canciones_disponibles = canciones_disponibles.to_numpy().tolist()
+        lista_cancion = random.choice(canciones_disponibles)
+        cancion = lista_cancion[2]
+        
+        le = label_encoders["track_name"]
+        nombre_cancion = le.inverse_transform([cancion])[0]
+        lista_temp = []
+        lista_temp.append(artista)
+        lista_temp.append(nombre_cancion)
+        lista_canciones.append(lista_temp)
+    
+    return lista_canciones
 
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para tu aplicación Flask
@@ -105,16 +103,17 @@ def getProducts():
 
         
         artist = data.get('nombre', "Ed Sheeran")
-        print("Este es el nombre del artista: "+str(artist))
+        
         
         
         artistlabel = label_encoders['artist_name'].transform([artist])[0]
 
         pred = get_similar_artists_api(modelo_recomendacion, artistlabel, data_api)
         pred = pred.tolist()
+        listaretorno = get_canciones(pred,data_api)
         
 
-        return jsonify({'artistas': pred, "canciones": 1})
+        return jsonify({'artistas': listaretorno,})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
