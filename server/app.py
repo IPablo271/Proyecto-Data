@@ -9,6 +9,7 @@ import tensorflow as tf
 import random 
 
 modelo_recomendacion = load_model("model_artistas.h5")
+modelo_recomendacion_2 = load_model("model_artistas_2.h5")
 data_api = pd.read_csv("ml_dataframe_ver3.csv")
 artist_ids_api = data_api['artist_name'].astype('category').cat.codes
 label_encoders = {}
@@ -94,7 +95,7 @@ app = Flask(__name__)
 CORS(app)  # Habilita CORS para tu aplicación Flask
 
 @app.route('/modelo', methods=['POST'])
-def getProducts():
+def modelo1():
     try:
         data = request.get_json()
 
@@ -109,6 +110,30 @@ def getProducts():
         artistlabel = label_encoders['artist_name'].transform([artist])[0]
 
         pred = get_similar_artists_api(modelo_recomendacion, artistlabel, data_api)
+        pred = pred.tolist()
+        listaretorno = get_canciones(pred,data_api)
+        
+
+        return jsonify({'artistas': listaretorno,})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/modelo2', methods=['POST'])
+def modelo2():
+    try:
+        data = request.get_json()
+
+        if data is None:
+            return jsonify({'error': 'El cuerpo de la solicitud debe contener datos JSON'}), 400
+
+        
+        artist = data.get('nombre', "Ed Sheeran")
+        
+        
+        
+        artistlabel = label_encoders['artist_name'].transform([artist])[0]
+
+        pred = get_similar_artists_api(modelo_recomendacion_2, artistlabel, data_api)
         pred = pred.tolist()
         listaretorno = get_canciones(pred,data_api)
         
