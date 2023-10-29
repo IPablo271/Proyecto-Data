@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS  # Importa CORS
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 import tensorflow as tf
 import random 
