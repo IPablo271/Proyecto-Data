@@ -20,6 +20,23 @@ El objetivo principal de este proyecto es crear un sistema de recomendación per
 
 - Python 3.6 o superior
 - Bibliotecas Python: [Numpy, Pandas, Json]
+- Bibliotecas Python Backend: [Joblib, tensorflow, sklearn, Numpy, Pandas, flask, flask_cors]
+
+## Ejecucion de frontend
+En una terminal utilizar (En el directorio de [client](./client))
+```
+npm install
+```
+y luego
+```
+npm run dev
+```
+
+## Ejecucion de backend
+En una terminal utilizar (En el directorio de [server](./server))
+```
+python app.py
+```
 
 ## Contacto
 
