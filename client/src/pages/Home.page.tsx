@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { NavbarMinimal } from '../components/NavbarMinimal/NavbarMinimal';
 
+import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+
 // Importamos el ModeloUno.tsx y ModeloDos.tsx
 import ModeloUno from '../components/ModeloUno/ModeloUno';
 import ModeloDos from '../components/ModeloDos/ModeloDos';
@@ -27,7 +29,7 @@ export function HomePage() {
       content = <CardsCarousel />;
       break;
     default:
-      content = <p>Seleccione un modelo o gráfica</p>;
+      content = <ColorSchemeToggle />;
   }
 
   const homeContainerStyle = {
