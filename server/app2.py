@@ -99,10 +99,14 @@ def modelo1():
             return jsonify({'error': 'El cuerpo de la solicitud debe contener datos JSON'}), 400
 
         
-        artist = data.get('cancion', "LA CANCIÓN")
+        # Cambio aquí: usar 'nombre' en lugar de 'cancion'
+        nombre_artista = data.get('nombre')
+
+        if not nombre_artista:
+            return jsonify({'error': 'Nombre del artista es requerido'}), 400
 
 
-        listaretorno = recomendar_canciones_lista(artist)
+        listaretorno = recomendar_canciones_lista(nombre_artista)
         print(listaretorno)
         
 

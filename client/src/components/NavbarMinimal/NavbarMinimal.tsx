@@ -3,6 +3,12 @@ import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import {
     IconChartDots,
     IconChartDots2,
+    IconChartBubbleFilled,
+
+    IconTopologyStar2,
+    IconTopologyStarRing2,
+    IconTopologyStarRing3,
+
     IconChartPieFilled,
     IconMusicBolt,
 } from '@tabler/icons-react';
@@ -26,8 +32,9 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-    { icon: IconChartDots, label: 'Modelo 1' },
-    { icon: IconChartDots2, label: 'Modelo 2' },
+    { icon: IconTopologyStar2, label: 'Modelo 1' },
+    { icon: IconTopologyStarRing2, label: 'Modelo 2' },
+    { icon: IconTopologyStarRing3, label: 'Modelo 3' },
     { icon: IconChartPieFilled, label: 'Graficas' },
 ];
 interface NavbarMinimalProps {

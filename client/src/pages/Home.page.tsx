@@ -5,6 +5,7 @@ import { NavbarMinimal } from '../components/NavbarMinimal/NavbarMinimal';
 // Importamos el ModeloUno.tsx y ModeloDos.tsx
 import ModeloUno from '../components/ModeloUno/ModeloUno';
 import ModeloDos from '../components/ModeloDos/ModeloDos';
+import ModeloTres from '../components/ModeloTres/ModeloTres';
 
 import { CardsCarousel } from '../components/CardsCarousel/CardsCarousel';
 
@@ -18,6 +19,9 @@ export function HomePage() {
       break;
     case 'Modelo 2':
       content = <ModeloDos />;
+      break;
+    case 'Modelo 3':
+      content = <ModeloTres />;
       break;
     case 'Graficas':
       content = <CardsCarousel />;
